@@ -62,20 +62,22 @@ def recursive_constant_propagation(board):
 ########################################
 
 board = []
-def get_user_matrix():
-    print("provide a matrix of 9x9 values:")
+def get_board_from_file(name):
+    file = open(name, "r")
     for _ in range(9):
-        row = input().strip()
+        row = file.readline().strip()
         row = row.replace(".", "0")
         row = row.replace(" ", "")
         board.append([int(value)  for value in row[:9]])
 
 
-get_user_matrix()
+get_board_from_file("board.txt")
+original = [row.copy() for row in board]
+recursive_constant_propagation(board)
 clear_screen()
 print("          Original matrix:")
-draw_board(board, None)
-original = [row.copy() for row in board]
+draw_board(original, None)
 print("           Solved matrix:")
-recursive_constant_propagation(board)
 draw_board(board, original)
+
+
