@@ -27,7 +27,7 @@ def check_constraint_box(board, x,y):
     return True
 
 ########################################
-#######  CONSTANT PROPAGATION   ########
+######  CONSTRAINT PROPAGATION   #######
 ########################################
 
 # This function applies constraint propagation recursively to solve the Sudoku board.
@@ -35,7 +35,7 @@ def check_constraint_box(board, x,y):
 # constraints (row, column, and 3x3 box) are satisfied. If a valid assignment is found, 
 # it recursively attempts to solve the rest of the board. If no valid assignment is found, 
 # it backtracks and tries a different value.
-def recursive_constant_propagation(board):
+def recursive_constraint_propagation(board):
     for i in range(9):
         for j in range(9):      
             if board[i][j] != 0:
@@ -48,7 +48,7 @@ def recursive_constant_propagation(board):
                 if ( check_constaint_row(board, i, j) and 
                      check_constaint_column(board, i, j) and 
                      check_constraint_box(board, i, j) and 
-                     recursive_constant_propagation(board)):     # recurse
+                     recursive_constraint_propagation(board)):     # recurse
                     return True  
 
             board[i][j] = 0         # If no valid assignment backtrack
@@ -73,7 +73,7 @@ def get_board_from_file(name):
 
 get_board_from_file("board.txt")
 original = [row.copy() for row in board]
-recursive_constant_propagation(board)
+recursive_constraint_propagation(board)
 clear_screen()
 print("          Original matrix:")
 draw_board(original, None)
